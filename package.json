@@ -1,0 +1,135 @@
+{
+  "name": "ryder-cup-website",
+  "description": "Ryder Cup Website",
+  "version": "1.0.0",
+  "author": "PGA",
+  "dependencies": {
+    "bootstrap": "^4.1.3",
+    "core-js": "^2.6.2",
+    "formik": "^1.4.1",
+    "gatsby": "^2.0.91",
+    "gatsby-image": "^2.0.25",
+    "gatsby-plugin-google-tagmanager": "^2.0.7",
+    "gatsby-plugin-manifest": "^2.0.5",
+    "gatsby-plugin-offline": "^2.0.5",
+    "gatsby-plugin-react-helmet": "^3.0.0",
+    "gatsby-plugin-robots-txt": "^1.3.0",
+    "gatsby-plugin-sharp": "^2.0.17",
+    "gatsby-plugin-sitemap": "^2.0.4",
+    "gatsby-plugin-styled-components": "^3.0.4",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-contentful": "^2.0.23",
+    "gatsby-source-filesystem": "^2.0.4",
+    "gatsby-transformer-sharp": "^2.1.10",
+    "install": "^0.12.2",
+    "jquery": "^3.3.1",
+    "markdown-it": "^8.4.2",
+    "polished": "^2.3.1",
+    "popper.js": "^1.14.6",
+    "ramda": "^0.26.1",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
+    "react-feather": "^1.1.4",
+    "react-helmet": "^5.2.0",
+    "react-lazyload": "^2.5.0",
+    "react-scroll": "^1.7.10",
+    "react-telephone-input": "^4.73.4",
+    "reactstrap": "^7.0.2",
+    "rebass": "^3.0.0",
+    "recompose": "^0.30.0",
+    "styled-components": "^4.1.2",
+    "uuid": "^3.3.2"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "develop": "gatsby develop",
+    "start": "rm -rf .cache && npm run develop",
+    "lint": "standard \"src/**/*.js\" \"*.js\" | snazzy",
+    "format": "standard --fix \"src/**/*.js\" \"*.js\"",
+    "sandbox-deploy": "git push origin +HEAD:sandbox",
+    "test": "NODE_ENV=test jest"
+  },
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-preset-gatsby": "^0.1.2",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
+    "eslint": "^5.8.0",
+    "gatsby-plugin-remove-trailing-slashes": "^2.0.7",
+    "husky": "^1.1.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^6.0.0",
+    "lint-staged": "^8.0.3",
+    "prettier": "^1.14.3",
+    "react-test-renderer": "^16.6.0",
+    "snazzy": "^8.0.0",
+    "standard": "^12.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote --no-semi",
+      "standard --fix",
+      "git add"
+    ]
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "globals": [
+      "fetch"
+    ]
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!**/node_modules/**"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/setup/jest-preprocess.js"
+    },
+    "testRegex": "/.*(__tests__\\/.*)|(.*(test|spec))\\.jsx?$",
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
+      ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "testPathIgnorePatterns": [
+      "node_modules",
+      ".cache"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(gatsby)/)"
+    ],
+    "globals": {
+      "__PATH_PREFIX__": ""
+    },
+    "setupFiles": [
+      "<rootDir>/setup/loadershim.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/setup/setupTests.js"
+  }
+}

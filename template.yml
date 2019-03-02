@@ -1,0 +1,71 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Ryder Cup website
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: The S3 bucket for Ryder Cup website
+  DomainName:
+    Type: String
+    Description: The domain for the Ryder Cup website
+
+Resources:
+  FrontendBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+
+  FrontendCloudfront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases:
+          - !Ref DomainName
+        HttpVersion: http2
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+          Compress: true
+          DefaultTTL: 0
+          MinTTL: 0
+          MaxTTL: 0
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: true
+          TargetOriginId: !Ref FrontendBucket
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+
+        DefaultRootObject: index.html
+        Enabled: true
+        Origins:
+          - Id: !Ref FrontendBucket
+            DomainName: !Sub ${BucketName}.s3-website-${AWS::Region}.amazonaws.com
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+        ViewerCertificate:
+          AcmCertificateArn: !ImportValue ATTEND-RYDERCUP-CERT
+          SslSupportMethod: sni-only
+
+  FrontendRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Type: A
+      Name: !Ref DomainName
+      HostedZoneId: !ImportValue ATTEND-RYDERCUP-HOSTED-ZONE
+      AliasTarget:
+        DNSName: !GetAtt FrontendCloudfront.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2
+
+Outputs:
+  WebsiteURL:
+    Description: Ryder Cup website URL
+    Value: !Sub https://${DomainName}
+    Export:
+      Name: RYDER-CUP-SITE-URL
